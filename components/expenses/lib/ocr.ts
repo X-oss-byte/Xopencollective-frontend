@@ -185,7 +185,7 @@ export const splitExpenseItem = (form: FormikProps<ExpenseFormValues>, itemIdx: 
   parsedItems.slice(1).forEach((parsedItem, idx) => {
     const newItemIdx = itemIdx + idx + 1;
     newFormValues.items.splice(newItemIdx, 0, null);
-    updateExpenseItemWithUploadItem(newFormValues, parsedItem, newItemIdx, { __file: item.__file });
+    updateExpenseItemWithUploadItem(newFormValues, parsedItem, newItemIdx, { __file: item.__file, url: item.url });
   });
 
   form.setValues(newFormValues);

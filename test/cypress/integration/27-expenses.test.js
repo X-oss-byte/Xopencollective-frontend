@@ -1,6 +1,6 @@
 import { randomEmail, randomSlug } from '../support/faker';
 
-describe('New expense flow', () => {
+describe('Expense flow', () => {
   describe('new expense when logged out', () => {
     it('shows the login screen', () => {
       cy.createHostedCollective().then(collective => {
@@ -149,6 +149,16 @@ describe('New expense flow', () => {
       cy.getByDataCy('expense-summary-items').should('contain', 'Fancy restaurant');
       cy.getByDataCy('expense-summary-items').should('contain', 'Potatoes for the giant raclette');
       cy.getByDataCy('expense-summary-items').should('contain', 'Some more delicious stuff');
+    });
+
+    it('can use OCR', () => {
+      cy.visit(`/${collective.slug}/expenses/new?ocr=true`); // Add query param to enable OCR
+      cy.getByDataCy('radio-expense-type-RECEIPT').click();
+      cy.getByDataCy('payout-method-select').click();
+      cy.contains('[data-cy="select-option"]', 'New custom payout method').click();
+      cy.get('textarea[name="payoutMethod.data.content"]').type('Bank Account: 007');
+      cy.getByDataCy('expense-next').click();
+      // TODO
     });
 
     it('can create a new organization', () => {
